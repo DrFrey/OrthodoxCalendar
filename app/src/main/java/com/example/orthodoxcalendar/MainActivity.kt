@@ -5,10 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.orthodoxcalendar.ui.CalendarScreen
 import com.example.orthodoxcalendar.ui.CalendarViewModel
 import com.example.orthodoxcalendar.ui.theme.OrthodoxCalendarTheme
@@ -19,6 +18,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: CalendarViewModel by viewModels()
 
+    @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,14 +1,13 @@
 package com.example.orthodoxcalendar.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,7 +22,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.orthodoxcalendar.R
 import com.example.orthodoxcalendar.domain.models.DayLocal
 import com.ireward.htmlcompose.HtmlText
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun CalendarScreen(viewModel: CalendarViewModel) {
@@ -31,9 +32,12 @@ fun CalendarScreen(viewModel: CalendarViewModel) {
     val navController = rememberNavController()
     val screens = listOf(
         BottomNavigationScreens.Saints,
-        BottomNavigationScreens.Holidays,
         BottomNavigationScreens.Texts
     )
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden
+    )
+    val coroutineScope = rememberCoroutineScope()
 
     val dateField = viewModel.currentDateFormatted
     val isLoading = viewModel.isLoading
@@ -43,6 +47,8 @@ fun CalendarScreen(viewModel: CalendarViewModel) {
     val icons = viewModel.iconItems
     val texts = viewModel.textItems
     val fasting = viewModel.fasting
+
+    var sheetContent: String by remember { mutableStateOf("")}
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -79,50 +85,60 @@ fun CalendarScreen(viewModel: CalendarViewModel) {
                 scaffoldState.snackbarHostState.showSnackbar(error)
             }
         }
-
-        Column {
-            DateRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                dayTextField = dateField.split(' ')[0],
-                monthTextField = dateField.split(' ')[1]
-            )
-            Divider()
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .width(40.dp)
-                            .height(40.dp)
-                            .align(Alignment.Center)
-                    )
-                } else {
-                    Column(
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        FastingRow(modifier = Modifier, fasting = fasting)
-                        Divider()
-                        NavHost(
-                            navController = navController,
-                            startDestination = BottomNavigationScreens.Saints.route
-                        ) {
-                            composable(BottomNavigationScreens.Saints.route) {
-                                SaintsScreen(
-                                    saints = saints,
-                                    navController = navController
-                                )
-                            }
-                            composable(BottomNavigationScreens.Holidays.route) {
-                                HolidaysScreen(
-                                    holidays = holidays,
-                                    navController = navController
-                                )
-                            }
-                            composable(BottomNavigationScreens.Texts.route) {
-                                TextsScreen(
-                                    texts = texts,
-                                    navController = navController
-                                )
+        ModalBottomSheetLayout(
+            modifier = Modifier.padding(innerPadding),
+            sheetContent = {
+                HtmlText(text = sheetContent)
+            },
+            sheetState = modalBottomSheetState
+        ) {
+            Column {
+                DateRow(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    dayTextField = dateField.split(' ')[0],
+                    monthTextField = dateField.split(' ')[1]
+                )
+                Divider()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(40.dp)
+                                .height(40.dp)
+                                .align(Alignment.Center)
+                        )
+                    } else {
+                        Column {
+                            FastingRow(fasting = fasting)
+                            Divider()
+                            HolidaysRow(
+                                holidays = holidays,
+                                onCardClicked = {
+                                    Log.d("___", "in onCardClicked, it = $it, sheetContent = $sheetContent")
+                                    sheetContent = it
+                                    coroutineScope.launch {
+                                        modalBottomSheetState.show()
+                                    }
+                                }
+                            )
+                            Divider()
+                            NavHost(
+                                navController = navController,
+                                startDestination = BottomNavigationScreens.Saints.route
+                            ) {
+                                composable(BottomNavigationScreens.Saints.route) {
+                                    SaintsScreen(
+                                        saints = saints,
+                                        navController = navController
+                                    )
+                                }
+                                composable(BottomNavigationScreens.Texts.route) {
+                                    TextsScreen(
+                                        texts = texts,
+                                        navController = navController
+                                    )
+                                }
                             }
                         }
                     }
@@ -171,14 +187,17 @@ fun DateRow(
 
 @Composable
 fun FastingRow(
-    modifier: Modifier,
     fasting: List<DayLocal.Fasting?>
 ) {
     val current = fasting.first()
     current?.let {
         Column(
-            modifier = modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .wrapContentSize(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             if (current.fasting.isNotEmpty()) {
                 HtmlText(
@@ -186,14 +205,19 @@ fun FastingRow(
                     style = MaterialTheme.typography.body1
                 )
             }
-            HtmlText(
-                text = stringResource(
-                    R.string.week_description,
-                    current.roundWeek,
-                    current.weeks
-                ).trim(),
-                style = MaterialTheme.typography.body2
-            )
+            if (current.roundWeek.isNotEmpty()) {
+                HtmlText(
+                    text = current.roundWeek,
+                    style = MaterialTheme.typography.body2
+                )
+            }
+            if (current.weeks.isNotEmpty()) {
+                HtmlText(
+                    text = current.weeks,
+                    style = MaterialTheme.typography.body2
+                )
+            }
+
             Row {
                 if (current.type == 0) {
                     HtmlText(
@@ -213,8 +237,6 @@ fun FastingRow(
             }
         }
     }
-
-
 }
 
 @Preview

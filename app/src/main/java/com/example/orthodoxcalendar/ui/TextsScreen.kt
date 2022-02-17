@@ -1,8 +1,6 @@
 package com.example.orthodoxcalendar.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,8 +11,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.orthodoxcalendar.domain.models.DayLocal
@@ -27,9 +23,6 @@ fun TextsScreen(
     texts: List<DayLocal.Text>,
     navController: NavController
 ) {
-    Column {
-
-    }
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(all = 4.dp)
@@ -46,7 +39,6 @@ fun TextCard(modifier: Modifier = Modifier, text: DayLocal.Text) {
         modifier = modifier
             .padding(all = 4.dp)
             .fillMaxWidth(),
-        border = BorderStroke(color = Color.Black, width = Dp.Hairline),
         shape = RoundedCornerShape(4.dp),
         elevation = 4.dp
     ) {

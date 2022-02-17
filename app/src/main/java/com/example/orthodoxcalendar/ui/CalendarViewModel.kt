@@ -3,8 +3,8 @@ package com.example.orthodoxcalendar.ui
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.orthodoxcalendar.common.D_MMMM
 import com.example.orthodoxcalendar.common.YYYY_MM_DD
+import com.example.orthodoxcalendar.common.D_MMMM
 import com.example.orthodoxcalendar.common.convertLongToDate
 import com.example.orthodoxcalendar.domain.models.DateRuleLocal
 import com.example.orthodoxcalendar.domain.models.DayLocal

@@ -3,14 +3,12 @@ package com.example.orthodoxcalendar.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,17 +20,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.orthodoxcalendar.R
 import com.example.orthodoxcalendar.domain.models.DayLocal
-import com.ireward.htmlcompose.HtmlText
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun HolidaysScreen(
+fun HolidaysRow(
     modifier: Modifier = Modifier,
     holidays: List<DayLocal.Holiday>,
-    navController: NavController
+    onCardClicked: (String) -> Unit
 ) {
     if (holidays.size == 1 && holidays[0].title.isEmpty()) {
         Text(
@@ -49,23 +46,34 @@ fun HolidaysScreen(
             contentPadding = PaddingValues(all = 4.dp)
         ) {
             items(holidays) { holiday ->
-                HolidayCard(holiday = holiday)
+                HolidayCard(
+                    holiday = holiday,
+                    onCardClicked = onCardClicked
+                )
             }
         }
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun HolidayCard(modifier: Modifier = Modifier, holiday: DayLocal.Holiday) {
+fun HolidayCard(
+    modifier: Modifier = Modifier,
+    holiday: DayLocal.Holiday,
+    onCardClicked: (String) -> Unit
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(8.dp),
         border = BorderStroke(color = Color.Black, width = Dp.Hairline),
         shape = RoundedCornerShape(4.dp),
-        elevation = 4.dp
+        elevation = 4.dp,
+        onClick = { onCardClicked(holiday.title) }
     ) {
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.Center
+        ) {
             when (holiday.ideograph) {
                 1 -> Image(
                     modifier = Modifier
@@ -104,10 +112,11 @@ fun HolidayCard(modifier: Modifier = Modifier, holiday: DayLocal.Holiday) {
                 )
                 else -> {}
             }
-            HtmlText(
+            Text(
                 text = holiday.title,
                 modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center
             )
         }
     }

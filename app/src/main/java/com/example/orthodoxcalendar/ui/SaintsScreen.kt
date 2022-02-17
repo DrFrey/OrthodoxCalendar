@@ -33,7 +33,9 @@ fun SaintsScreen(
         contentPadding = PaddingValues(all = 4.dp)
     ) {
         items(saints) { saint ->
-            SaintCard(saint = saint)
+            saint.id?.let {
+                SaintCard(saint = saint)
+            }
         }
     }
 }

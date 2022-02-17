@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">OrthodoxCalendar</string>
-    <string name="saints">Святые</string>
+    <string name="saints_and_holidays">Святые и праздники</string>
     <string name="holidays">Праздники</string>
-    <string name="texts">Тексты</string>
+    <string name="texts">Священное писание</string>
     <string name="no_holidays">Праздников нет</string>
     <string name="no_fasting">Поста нет. </string>
     <string name="voice">Глас %1$s.</string>
-    <string name="week_description">%1$s%2$s</string>
     <string name="fasting_day">Постный день. </string>
 </resources>
