@@ -4,39 +4,32 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.orthodoxcalendar.R
-import com.example.orthodoxcalendar.domain.models.DayLocal
-import com.ireward.htmlcompose.HtmlText
+
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun CalendarScreen(viewModel: CalendarViewModel) {
-    val scaffoldState = rememberScaffoldState()
-    val navController = rememberNavController()
-    val screens = listOf(
-        BottomNavigationScreens.Saints,
-        BottomNavigationScreens.Texts
-    )
-    val modalBottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
-    )
+fun CalendarScreen(
+    navController: NavHostController,
+    saintsVisible: Boolean,
+    textsVisible: Boolean
+) {
+    val viewModel: CalendarViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     val dateField = viewModel.currentDateFormatted
@@ -48,199 +41,39 @@ fun CalendarScreen(viewModel: CalendarViewModel) {
     val texts = viewModel.textItems
     val fasting = viewModel.fasting
 
-    var sheetContent: String by remember { mutableStateOf("")}
-
-    Scaffold(
-        scaffoldState = scaffoldState,
-        bottomBar = {
-            BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                screens.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = { Icon(screen.icon, null) },
-                        label = { Text(stringResource(screen.resourceId)) },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
-                            }
-                        })
-                }
-            }
-        }
-    ) { innerPadding ->
-        if (error.isNotEmpty()) {
-            LaunchedEffect(error) {
-                scaffoldState.snackbarHostState.showSnackbar(error)
-            }
-        }
-        ModalBottomSheetLayout(
-            modifier = Modifier.padding(innerPadding),
-            sheetContent = {
-                HtmlText(text = sheetContent)
-            },
-            sheetState = modalBottomSheetState
-        ) {
-            Column {
-                DateRow(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    dayTextField = dateField.split(' ')[0],
-                    monthTextField = dateField.split(' ')[1]
-                )
-                Divider()
-                Box(modifier = Modifier.fillMaxSize()) {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .width(40.dp)
-                                .height(40.dp)
-                                .align(Alignment.Center)
-                        )
-                    } else {
-                        Column {
-                            FastingRow(fasting = fasting)
-                            Divider()
-                            HolidaysRow(
-                                holidays = holidays,
-                                onCardClicked = {
-                                    Log.d("___", "in onCardClicked, it = $it, sheetContent = $sheetContent")
-                                    sheetContent = it
-                                    coroutineScope.launch {
-                                        modalBottomSheetState.show()
-                                    }
-                                }
-                            )
-                            Divider()
-                            NavHost(
-                                navController = navController,
-                                startDestination = BottomNavigationScreens.Saints.route
-                            ) {
-                                composable(BottomNavigationScreens.Saints.route) {
-                                    SaintsScreen(
-                                        saints = saints,
-                                        navController = navController
-                                    )
-                                }
-                                composable(BottomNavigationScreens.Texts.route) {
-                                    TextsScreen(
-                                        texts = texts,
-                                        navController = navController
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DateRow(
-    modifier: Modifier,
-    dayTextField: String,
-    monthTextField: String
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+    Column(
+        modifier = Modifier
     ) {
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /*TODO*/ }
-        ) {
-            Icon(Icons.Filled.ArrowBack, "Back")
-        }
-        Column(modifier = Modifier.padding(all = 10.dp)) {
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = dayTextField,
-                style = MaterialTheme.typography.h4
-            )
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = monthTextField,
-                style = MaterialTheme.typography.h5
-            )
-        }
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /*TODO*/ }
-        ) {
-            Icon(Icons.Filled.ArrowForward, "Forward")
-        }
-    }
-}
-
-@Composable
-fun FastingRow(
-    fasting: List<DayLocal.Fasting?>
-) {
-    val current = fasting.first()
-    current?.let {
-        Column(
+        DateRow(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .wrapContentSize(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            if (current.fasting.isNotEmpty()) {
-                HtmlText(
-                    text = current.fasting,
-                    style = MaterialTheme.typography.body1
+                .fillMaxWidth(),
+            dayTextField = dateField.split(' ')[0],
+            monthTextField = dateField.split(' ')[1]
+        )
+        Divider()
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .align(Alignment.Center)
                 )
-            }
-            if (current.roundWeek.isNotEmpty()) {
-                HtmlText(
-                    text = current.roundWeek,
-                    style = MaterialTheme.typography.body2
-                )
-            }
-            if (current.weeks.isNotEmpty()) {
-                HtmlText(
-                    text = current.weeks,
-                    style = MaterialTheme.typography.body2
-                )
-            }
-
-            Row {
-                if (current.type == 0) {
-                    HtmlText(
-                        text = stringResource(R.string.no_fasting),
-                        style = MaterialTheme.typography.body2
+            } else {
+                Column(
+                    modifier = Modifier
+                ) {
+                    FastingRow(fasting = fasting)
+                    Divider()
+                    HolidaysRow(
+                        holidays = holidays,
+                        navController = navController
                     )
-                } else {
-                    HtmlText(
-                        text = stringResource(R.string.fasting_day),
-                        style = MaterialTheme.typography.body2
-                    )
+                    Divider()
+                    SaintsScreen(saints = saints, isVisible = saintsVisible, navController = navController)
+                    TextsScreen(texts = texts, isVisible = textsVisible, navController = navController)
                 }
-                HtmlText(
-                    text = stringResource(R.string.voice, current.voice ?: ""),
-                    style = MaterialTheme.typography.body2
-                )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun DateRowPreview() {
-    DateRow(Modifier.fillMaxWidth(), "18", "февраля")
 }

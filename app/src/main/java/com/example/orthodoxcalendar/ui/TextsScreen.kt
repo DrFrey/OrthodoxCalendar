@@ -1,5 +1,6 @@
 package com.example.orthodoxcalendar.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,29 +13,39 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.orthodoxcalendar.domain.models.DayLocal
 import com.ireward.htmlcompose.HtmlText
 
 @ExperimentalFoundationApi
 @Composable
 fun TextsScreen(
-    modifier: Modifier = Modifier,
     texts: List<DayLocal.Text>,
-    navController: NavController
+    navController: NavHostController,
+    isVisible: Boolean
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(all = 4.dp)
-    ) {
-        items(texts) { text ->
-            TextCard(text = text)
+    if (isVisible) {
+        LazyColumn(
+            modifier = Modifier,
+            contentPadding = PaddingValues(all = 4.dp)
+        ) {
+            items(texts) { text ->
+                TextCard(
+                    text = text,
+                    navController = navController
+                )
+            }
         }
     }
 }
 
 @Composable
-fun TextCard(modifier: Modifier = Modifier, text: DayLocal.Text) {
+fun TextCard(
+    modifier: Modifier = Modifier,
+    text: DayLocal.Text,
+    navController: NavHostController
+) {
     Card(
         modifier = modifier
             .padding(all = 4.dp)

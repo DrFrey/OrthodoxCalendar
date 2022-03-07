@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var currentDate = System.currentTimeMillis()
 
@@ -34,7 +34,7 @@ class CalendarViewModel @Inject constructor(
     var holidayItems = mutableStateListOf<DayLocal.Holiday>()
         private set
 
-    var iconItems = mutableStateListOf<DayLocal.Icon?>(null)
+    var iconItems = mutableStateListOf<DayLocal.Icon>()
         private set
 
     var textItems = mutableStateListOf<DayLocal.Text>()
@@ -48,6 +48,10 @@ class CalendarViewModel @Inject constructor(
 
     var error by mutableStateOf("")
         private set
+
+    var selectedHoliday by mutableStateOf<DayLocal.Holiday?>(null)
+    var selectedSaint by mutableStateOf<DayLocal.Saint?>(null)
+    var selectedText by mutableStateOf<DayLocal.Text?>(null)
 
     init {
         setFormattedDate()
@@ -64,17 +68,20 @@ class CalendarViewModel @Inject constructor(
         viewModelScope.launch {
             calendarRepository.getDay(date)
                 .collect {
-                    when(it) {
+                    when (it) {
                         is Result.Loading -> {
                             isLoading = true
                         }
                         is Result.Success -> {
                             isLoading = false
-                            fasting = it.data?.fastings?.toMutableStateList() ?: mutableStateListOf()
-                            saintItems = it.data?.saints?.toMutableStateList() ?: mutableStateListOf()
+                            fasting =
+                                it.data?.fastings?.toMutableStateList() ?: mutableStateListOf()
+                            saintItems =
+                                it.data?.saints?.toMutableStateList() ?: mutableStateListOf()
                             textItems = it.data?.texts?.toMutableStateList() ?: mutableStateListOf()
                             iconItems = it.data?.icons?.toMutableStateList() ?: mutableStateListOf()
-                            holidayItems = it.data?.holidays?.toMutableStateList() ?: mutableStateListOf()
+                            holidayItems =
+                                it.data?.holidays?.toMutableStateList() ?: mutableStateListOf()
                         }
                         is Result.Error -> {
                             error = it.message.orEmpty()
@@ -88,9 +95,14 @@ class CalendarViewModel @Inject constructor(
     private fun getCurrentDateItems() {
         val date = currentDate.convertLongToDate(YYYY_MM_DD)
         viewModelScope.launch {
-            calendarRepository.getCacheDate(dateBefore = date, dateStrictlyBefore = null, dateAfter = date, dateStrictlyAfter = null)
+            calendarRepository.getCacheDate(
+                dateBefore = date,
+                dateStrictlyBefore = null,
+                dateAfter = date,
+                dateStrictlyAfter = null
+            )
                 .collect {
-                    when(it) {
+                    when (it) {
                         is Result.Loading -> isLoading = true
                         is Result.Success -> {
                             currentDateItems = it.data?.toMutableStateList() ?: mutableStateListOf()

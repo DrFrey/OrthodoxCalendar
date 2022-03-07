@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.orthodoxcalendar.R
 import com.example.orthodoxcalendar.domain.models.DayLocal
 
@@ -29,7 +31,8 @@ import com.example.orthodoxcalendar.domain.models.DayLocal
 fun HolidaysRow(
     modifier: Modifier = Modifier,
     holidays: List<DayLocal.Holiday>,
-    onCardClicked: (String) -> Unit
+    navController: NavHostController
+//    onCardClicked: (DayLocal.Holiday) -> Unit
 ) {
     if (holidays.size == 1 && holidays[0].title.isEmpty()) {
         Text(
@@ -48,7 +51,11 @@ fun HolidaysRow(
             items(holidays) { holiday ->
                 HolidayCard(
                     holiday = holiday,
-                    onCardClicked = onCardClicked
+                    onCardClicked = {
+                        navController.navigate(
+                            "${MainDestinations.DETAILS_SCREEN}/${it.title}"
+                        )
+                    }
                 )
             }
         }
@@ -60,7 +67,7 @@ fun HolidaysRow(
 fun HolidayCard(
     modifier: Modifier = Modifier,
     holiday: DayLocal.Holiday,
-    onCardClicked: (String) -> Unit
+    onCardClicked: (DayLocal.Holiday) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -69,7 +76,7 @@ fun HolidayCard(
         border = BorderStroke(color = Color.Black, width = Dp.Hairline),
         shape = RoundedCornerShape(4.dp),
         elevation = 4.dp,
-        onClick = { onCardClicked(holiday.title) }
+        onClick = { onCardClicked(holiday) }
     ) {
         Row(
             horizontalArrangement = Arrangement.Center
