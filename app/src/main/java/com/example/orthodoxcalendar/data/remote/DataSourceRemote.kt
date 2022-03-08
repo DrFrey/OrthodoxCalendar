@@ -3,16 +3,19 @@ package com.example.orthodoxcalendar.data.remote
 import com.example.orthodoxcalendar.data.remote.mappers.CacheDateMapper
 import com.example.orthodoxcalendar.data.remote.mappers.DayMapper
 import com.example.orthodoxcalendar.common.request
-import com.example.orthodoxcalendar.domain.models.DateRuleLocal
-import com.example.orthodoxcalendar.domain.models.DayLocal
-import com.example.orthodoxcalendar.domain.repository.map
+import com.example.orthodoxcalendar.data.remote.mappers.HolidayMapper
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
+import com.example.orthodoxcalendar.data.repository.map
 import javax.inject.Inject
-import com.example.orthodoxcalendar.domain.repository.Result
+import com.example.orthodoxcalendar.data.repository.Result
+import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 
 class DataSourceRemote @Inject constructor(
     private val calendarApiService: CalendarApiService,
     private val cacheDateMapper: CacheDateMapper,
-    private val dayMapper: DayMapper
+    private val dayMapper: DayMapper,
+    private val holidayMapper: HolidayMapper
 ){
         suspend fun getCacheDates(
             dateBefore: String?,
@@ -31,5 +34,15 @@ class DataSourceRemote @Inject constructor(
             calendarApiService.getDay(date)
         }.map {
             dayMapper.mapToLocal(it)
+        }
+
+    suspend fun getHoliday(id: Int): Result<HolidayLocal> =
+        request {
+            calendarApiService.getHoliday(id)
+        }.map {
+            holidayMapper.mapToLocal(
+                it,
+                it.iconsOfHolidays ?: listOf(),
+                it.tropariaOrKontakia ?: listOf())
         }
 }

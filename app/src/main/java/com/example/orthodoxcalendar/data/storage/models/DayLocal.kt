@@ -1,4 +1,4 @@
-package com.example.orthodoxcalendar.domain.models
+package com.example.orthodoxcalendar.data.storage.models
 
 class DayLocal(
     val fastings: List<Fasting>,

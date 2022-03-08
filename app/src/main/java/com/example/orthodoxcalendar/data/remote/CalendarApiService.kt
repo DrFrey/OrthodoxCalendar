@@ -2,6 +2,7 @@ package com.example.orthodoxcalendar.data.remote
 
 import com.example.orthodoxcalendar.data.remote.model.CacheDateResponse
 import com.example.orthodoxcalendar.data.remote.model.DayResponse
+import com.example.orthodoxcalendar.data.remote.model.HolidayResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,4 +20,7 @@ interface CalendarApiService {
 
     @GET("days-new/api/day/{date}.json")
     suspend fun getDay(@Path("date") date: String): Response<DayResponse>
+
+    @GET("days/api/holidays/{id}")
+    suspend fun getHoliday(@Path("id") id: Int): Response<HolidayResponse>
 }

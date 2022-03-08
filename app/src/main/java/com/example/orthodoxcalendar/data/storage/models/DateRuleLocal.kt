@@ -1,4 +1,4 @@
-package com.example.orthodoxcalendar.domain.models
+package com.example.orthodoxcalendar.data.storage.models
 
 data class DateRuleLocal(
     val additionalText: List<AdditionalText?>?,

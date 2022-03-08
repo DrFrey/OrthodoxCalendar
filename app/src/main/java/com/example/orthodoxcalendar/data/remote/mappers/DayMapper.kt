@@ -2,7 +2,7 @@ package com.example.orthodoxcalendar.data.remote.mappers
 
 import com.example.orthodoxcalendar.data.remote.model.DayResponse
 import com.example.orthodoxcalendar.common.titlecaseFirstCharIfItIsLowercase
-import com.example.orthodoxcalendar.domain.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import javax.inject.Inject
 
 class DayMapper @Inject constructor() {

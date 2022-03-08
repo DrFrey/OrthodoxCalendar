@@ -1,6 +1,5 @@
 package com.example.orthodoxcalendar.ui
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,9 +12,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.orthodoxcalendar.domain.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.ireward.htmlcompose.HtmlText
 
 @ExperimentalFoundationApi

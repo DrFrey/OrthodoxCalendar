@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.orthodoxcalendar.R
-import com.example.orthodoxcalendar.domain.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.ireward.htmlcompose.HtmlText
 
 @Composable

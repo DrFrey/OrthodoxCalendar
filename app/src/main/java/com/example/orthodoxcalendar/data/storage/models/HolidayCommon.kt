@@ -1,15 +1,17 @@
-package com.example.orthodoxcalendar.domain.models
+package com.example.orthodoxcalendar.data.storage.models
 
-import com.example.orthodoxcalendar.data.remote.model.HolidayResponse
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class HolidayLocal(
-    val id: Int,
+@Entity
+data class HolidayBody(
+    @PrimaryKey val id: Int,
+
     val canonsOrAkathists: List<String>,
     val daysAfter: Int,
     val daysBefore: Int,
     val description: String,
     val favorite: Boolean,
-    val iconsOfHolidays: List<HolidayResponse.IconsOfHoliday>,
     val ideograph: Int,
     val liturgicalFeatures: String,
     val marked: Boolean,
@@ -18,18 +20,24 @@ data class HolidayLocal(
     val temples: String,
     val theology: String,
     val title: String,
-    val tropariaOrKontakia: List<HolidayResponse.TropariaOrKontakia>,
     val uri: String,
     val url: String,
     val urlBase: Int
-)
+    )
 
+@Entity
 data class IconsOfHoliday(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val holidayRelationId: Int,
+
     val image: String
 )
 
+@Entity
 data class TropariaOrKontakia(
-    val id: Int,
+    @PrimaryKey val id: Int,
+    val holidayRelationId: Int,
+
     val audioSource: String,
     val duration: Int,
     val priority: Int,

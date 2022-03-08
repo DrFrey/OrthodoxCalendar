@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.orthodoxcalendar.common.YYYY_MM_DD
 import com.example.orthodoxcalendar.common.D_MMMM
 import com.example.orthodoxcalendar.common.convertLongToDate
-import com.example.orthodoxcalendar.domain.models.DateRuleLocal
-import com.example.orthodoxcalendar.domain.models.DayLocal
-import com.example.orthodoxcalendar.domain.repository.CalendarRepository
-import com.example.orthodoxcalendar.domain.repository.Result
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
+import com.example.orthodoxcalendar.data.repository.CalendarRepository
+import com.example.orthodoxcalendar.data.repository.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

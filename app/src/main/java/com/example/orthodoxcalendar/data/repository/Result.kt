@@ -1,4 +1,4 @@
-package com.example.orthodoxcalendar.domain.repository
+package com.example.orthodoxcalendar.data.repository
 
 sealed class Result<out T>(val status: ResourceStatus, val data: T?, val message: String?) {
 

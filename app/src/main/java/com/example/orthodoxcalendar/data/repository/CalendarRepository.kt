@@ -1,7 +1,8 @@
-package com.example.orthodoxcalendar.domain.repository
+package com.example.orthodoxcalendar.data.repository
 
-import com.example.orthodoxcalendar.domain.models.DateRuleLocal
-import com.example.orthodoxcalendar.domain.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 import kotlinx.coroutines.flow.Flow
 
 interface CalendarRepository {
@@ -14,4 +15,6 @@ interface CalendarRepository {
     ): Flow<Result<List<DateRuleLocal>>>
 
     fun getDay(date: String): Flow<Result<DayLocal>>
+
+    fun getHoliday(id: Int): Flow<Result<HolidayLocal>>
 }

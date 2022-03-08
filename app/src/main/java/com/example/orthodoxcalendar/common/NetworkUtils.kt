@@ -3,7 +3,7 @@ package com.example.orthodoxcalendar.common
 import android.util.Log
 import retrofit2.HttpException
 import retrofit2.Response
-import com.example.orthodoxcalendar.domain.repository.Result
+import com.example.orthodoxcalendar.data.repository.Result
 
 const val TAG = "NetworkUtils"
 

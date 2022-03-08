@@ -1,15 +1,18 @@
-package com.example.orthodoxcalendar.domain.repository
+package com.example.orthodoxcalendar.data.repository
 
 import com.example.orthodoxcalendar.data.remote.DataSourceRemote
-import com.example.orthodoxcalendar.domain.models.DateRuleLocal
-import com.example.orthodoxcalendar.domain.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.DataSourceLocal
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
+import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class CalendarRepositoryImpl(
-    private val dataSourceRemote: DataSourceRemote
+    private val dataSourceRemote: DataSourceRemote,
+    private val dataSourceLocal: DataSourceLocal
 ) : CalendarRepository {
 
     override fun getCacheDate(
@@ -30,6 +33,20 @@ class CalendarRepositoryImpl(
             emit(Result.Loading)
             val dayResponse = dataSourceRemote.getDay(date)
             emit(dayResponse)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getHoliday(id: Int): Flow<Result<HolidayLocal>> {
+        return flow {
+            emit(Result.Success(dataSourceLocal.getHoliday(id)))
+            emit(Result.Loading)
+            val result = dataSourceRemote.getHoliday(id)
+            emit(result)
+            if (result is Result.Success) {
+                result.data?.let {
+                    dataSourceLocal.insertHoliday(result.data)
+                }
+            }
         }.flowOn(Dispatchers.IO)
     }
 }

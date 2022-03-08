@@ -1,7 +1,7 @@
 package com.example.orthodoxcalendar.data.remote.mappers
 
 import com.example.orthodoxcalendar.data.remote.model.CacheDateResponse
-import com.example.orthodoxcalendar.domain.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
 import javax.inject.Inject
 
 class CacheDateMapper @Inject constructor() {
