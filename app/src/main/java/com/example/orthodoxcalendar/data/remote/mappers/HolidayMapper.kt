@@ -2,27 +2,15 @@ package com.example.orthodoxcalendar.data.remote.mappers
 
 import com.example.orthodoxcalendar.data.remote.model.HolidayResponse
 import com.example.orthodoxcalendar.data.storage.models.HolidayBody
-import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 import com.example.orthodoxcalendar.data.storage.models.IconsOfHoliday
-import com.example.orthodoxcalendar.data.storage.models.TropariaOrKontakia
 import javax.inject.Inject
 
 class HolidayMapper @Inject constructor() {
-    fun mapToLocal(
-        body: HolidayResponse,
-        icons: List<HolidayResponse.IconsOfHoliday>,
-        troparia: List<HolidayResponse.TropariaOrKontakia>
-    ): HolidayLocal = HolidayLocal(
-        body = mapHolidayBody(body),
-        icons = icons.map { mapHolidayIcons(it, body.id) },
-        tropariaOrKontakia = troparia.map { mapHolidayTroparia(it, body.id) }
-    )
-
 
     fun mapHolidayBody(body: HolidayResponse): HolidayBody =
         with(body) {
             HolidayBody(
-                id = id,
+                holidayId = id,
                 canonsOrAkathists = canonsOrAkathists ?: listOf(),
                 daysAfter = daysAfter ?: 0,
                 daysBefore = daysBefore ?: 0,
@@ -43,30 +31,13 @@ class HolidayMapper @Inject constructor() {
         }
 
     fun mapHolidayIcons(
-        icons: HolidayResponse.IconsOfHoliday,
+        icon: HolidayResponse.IconsOfHoliday,
         holidayId: Int
-    ): IconsOfHoliday = with(icons) {
+    ): IconsOfHoliday = with(icon) {
         IconsOfHoliday(
             id = 0,
             holidayRelationId = holidayId,
             image = image.orEmpty()
         )
     }
-
-    fun mapHolidayTroparia(
-        troparia: HolidayResponse.TropariaOrKontakia,
-        holidayId: Int
-    ): TropariaOrKontakia = with(troparia) {
-        TropariaOrKontakia(
-            id = id,
-            holidayRelationId = holidayId,
-            audioSource = audioSource.orEmpty(),
-            duration = duration ?: 0,
-            priority = priority ?: 0,
-            title = title.orEmpty(),
-            type = type.orEmpty(),
-            voice = voice.orEmpty()
-        )
-    }
-
 }

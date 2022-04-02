@@ -36,15 +36,20 @@ private fun NavGraphBuilder.calendarGraph(
         CalendarScreen(navController = navController, saintsVisible = true, textsVisible = false)
     }
     composable(
-        route = "${MainDestinations.DETAILS_SCREEN}/{text}",
-        arguments = listOf(navArgument("text") { type = NavType.StringType })
+        route = "${MainDestinations.DETAILS_SCREEN}/{text}/{id}",
+        arguments = listOf(
+            navArgument("text") { type = NavType.StringType },
+            navArgument("id") { type = NavType.IntType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
-        arguments.getString("text")?.let {
-            DetailsScreen(it)
+        arguments.getString("text")?.let { text ->
+            arguments.getInt("id").let { id ->
+                DetailsScreen(text, id, navController)
+            }
         }
     }
 }
+
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

@@ -3,17 +3,17 @@ package com.example.orthodoxcalendar.ui
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.orthodoxcalendar.common.YYYY_MM_DD
 import com.example.orthodoxcalendar.common.D_MMMM
+import com.example.orthodoxcalendar.common.YYYY_MM_DD
 import com.example.orthodoxcalendar.common.convertLongToDate
-import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
-import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.example.orthodoxcalendar.data.repository.CalendarRepository
 import com.example.orthodoxcalendar.data.repository.Result
+import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
+import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
@@ -49,7 +49,6 @@ class CalendarViewModel @Inject constructor(
     var error by mutableStateOf("")
         private set
 
-    var selectedHoliday by mutableStateOf<DayLocal.Holiday?>(null)
     var selectedSaint by mutableStateOf<DayLocal.Saint?>(null)
     var selectedText by mutableStateOf<DayLocal.Text?>(null)
 

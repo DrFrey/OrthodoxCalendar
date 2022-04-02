@@ -1,7 +1,7 @@
 package com.example.orthodoxcalendar.data.remote.mappers
 
-import com.example.orthodoxcalendar.data.remote.model.DayResponse
 import com.example.orthodoxcalendar.common.titlecaseFirstCharIfItIsLowercase
+import com.example.orthodoxcalendar.data.remote.model.DayResponse
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class DayMapper @Inject constructor() {
                     favorite = it?.favorite,
                     fullTitle = it?.fullTitle.orEmpty(),
                     iconography = it?.iconography.orEmpty(),
-                    id = it?.id,
+                    id = it?.id ?: -1,
                     ideograph = it?.ideograph,
                     imgs = it?.imgs?.map { img ->
                         DayLocal.Holiday.Img(

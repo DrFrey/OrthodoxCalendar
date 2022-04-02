@@ -1,18 +1,22 @@
 package com.example.orthodoxcalendar.data.storage.models
 
 import androidx.room.Embedded
+import androidx.room.Junction
 import androidx.room.Relation
 
 data class HolidayLocal(
     @Embedded val body: HolidayBody,
+
     @Relation(
-        parentColumn = "id",
+        parentColumn = "holidayId",
         entityColumn = "holidayRelationId"
     )
     val icons: List<IconsOfHoliday>,
+
     @Relation(
-        parentColumn = "id",
-        entityColumn = "holidayRelationId"
+        parentColumn = "holidayId",
+        entityColumn = "tropariaId",
+        associateBy = Junction(HolidayTropariaCrossRef::class)
     )
-    val tropariaOrKontakia: List<TropariaOrKontakia>
+    val troparia: List<TropariaOrKontakia>
 )

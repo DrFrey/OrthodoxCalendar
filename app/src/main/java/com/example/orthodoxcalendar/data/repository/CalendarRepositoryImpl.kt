@@ -5,6 +5,7 @@ import com.example.orthodoxcalendar.data.storage.DataSourceLocal
 import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
+import com.example.orthodoxcalendar.data.storage.models.SaintLocal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -45,6 +46,20 @@ class CalendarRepositoryImpl(
             if (result is Result.Success) {
                 result.data?.let {
                     dataSourceLocal.insertHoliday(result.data)
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getSaint(id: Int): Flow<Result<SaintLocal>> {
+        return flow {
+            emit(Result.Success(dataSourceLocal.getSaint(id)))
+            emit(Result.Loading)
+            val result = dataSourceRemote.getSaint(id)
+            emit(result)
+            if (result is Result.Success) {
+                result.data?.let {
+                    dataSourceLocal.insertSaint(result.data)
                 }
             }
         }.flowOn(Dispatchers.IO)

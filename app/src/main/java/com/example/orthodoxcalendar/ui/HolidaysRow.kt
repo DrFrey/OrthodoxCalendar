@@ -40,7 +40,7 @@ fun HolidaysRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body1
         )
     } else {
         LazyColumn(
@@ -52,7 +52,7 @@ fun HolidaysRow(
                     holiday = holiday,
                     onCardClicked = {
                         navController.navigate(
-                            "${MainDestinations.DETAILS_SCREEN}/${it.title}"
+                            "${MainDestinations.DETAILS_SCREEN}/${DetailTypes.HOLIDAY.name}/${holiday.id}"
                         )
                     }
                 )

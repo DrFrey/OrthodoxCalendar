@@ -1,9 +1,9 @@
 package com.example.orthodoxcalendar.data.remote.model
 
 
+import com.example.orthodoxcalendar.data.utils.AlwaysListTypeAdapterFactory
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.example.orthodoxcalendar.data.utils.AlwaysListTypeAdapterFactory
 
 data class DayResponse(
     @SerializedName("fasting")

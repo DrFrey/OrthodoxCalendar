@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class HolidayBody(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val holidayId: Int,
 
     val canonsOrAkathists: List<String>,
     val daysAfter: Int,
@@ -28,20 +28,7 @@ data class HolidayBody(
 @Entity
 data class IconsOfHoliday(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val holidayRelationId: Int,
 
+    val holidayRelationId: Int,
     val image: String
-)
-
-@Entity
-data class TropariaOrKontakia(
-    @PrimaryKey val id: Int,
-    val holidayRelationId: Int,
-
-    val audioSource: String,
-    val duration: Int,
-    val priority: Int,
-    val title: String,
-    val type: String,
-    val voice: String
-)
+    )

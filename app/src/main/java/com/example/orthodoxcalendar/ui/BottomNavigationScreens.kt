@@ -2,7 +2,6 @@ package com.example.orthodoxcalendar.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector

@@ -1,7 +1,7 @@
 package com.example.orthodoxcalendar.data.storage
 
 import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
-import kotlinx.coroutines.flow.Flow
+import com.example.orthodoxcalendar.data.storage.models.SaintLocal
 import javax.inject.Inject
 
 class DataSourceLocal @Inject constructor(private val db: AppDatabase) {
@@ -12,6 +12,15 @@ class DataSourceLocal @Inject constructor(private val db: AppDatabase) {
         db.holidayDao().insertHolidayInTransaction(
             body = holidayLocal.body,
             icons = holidayLocal.icons,
-            troparia = holidayLocal.tropariaOrKontakia
+            troparia = holidayLocal.troparia
+        )
+
+    suspend fun getSaint(id: Int): SaintLocal = db.saintDao().getSaintById(id)
+
+    suspend fun insertSaint(saintLocal: SaintLocal) =
+        db.saintDao().insertSaintInTransaction(
+            body = saintLocal.body,
+            icons = saintLocal.icons,
+            troparia = saintLocal.troparia
         )
 }

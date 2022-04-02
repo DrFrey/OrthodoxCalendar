@@ -24,7 +24,7 @@ class DayLocal(
         val favorite: Int?,
         val fullTitle: String,
         val iconography: String,
-        val id: Int?,
+        val id: Int,
         val ideograph: Int?,
         val imgs: List<Img?>?,
         val liturgicalFeatures: String,
