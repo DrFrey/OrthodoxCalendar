@@ -1,6 +1,7 @@
 package com.example.orthodoxcalendar.ui
 
 import android.util.Log
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -41,46 +43,56 @@ fun DetailsScreen(
         }
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Details") },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.popBackStack() }
-                    ) {
-                        Icon(Icons.Filled.ArrowBack, "back")
-                    }
-                }
-            )
+    val state = remember {
+        MutableTransitionState(false).apply {
+            // Start the animation immediately.
+            targetState = true
         }
-    ) {
-        Log.d(
-            "___",
-            "DetailsScreen recomposed; ${holidayData.hashCode()}; viemodel = ${viewModel.hashCode()}"
-        )
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .width(40.dp)
-                        .height(40.dp)
-                        .align(Alignment.Center)
-                )
-            } else {
-                when (detailType) {
-                    DetailTypes.HOLIDAY.name -> {
-                        ShowDetails(
-                            title = holidayData?.body?.title ?: "",
-                            description = holidayData?.body?.description ?: ""
-                        )
-                    }
-                    DetailTypes.SAINT.name -> {
-                        ShowDetails(
-                            title = saintData?.body?.title ?: "",
-                            description = saintData?.body?.description ?: "")
+    }
 
+    AnimatedContainer(state = state) {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Details") },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { navController.popBackStack() }
+                        ) {
+                            Icon(Icons.Filled.ArrowBack, "back")
+                        }
+                    }
+                )
+            }
+        ) {
+            Log.d(
+                "___",
+                "DetailsScreen recomposed; ${holidayData.hashCode()}; viemodel = ${viewModel.hashCode()}"
+            )
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                            .align(Alignment.Center)
+                    )
+                } else {
+                    when (detailType) {
+                        DetailTypes.HOLIDAY.name -> {
+                            ShowDetails(
+                                title = holidayData?.body?.title ?: "",
+                                description = holidayData?.body?.description ?: ""
+                            )
+                        }
+                        DetailTypes.SAINT.name -> {
+                            ShowDetails(
+                                title = saintData?.body?.title ?: "",
+                                description = saintData?.body?.description ?: ""
+                            )
+
+                        }
                     }
                 }
             }
