@@ -41,7 +41,9 @@ fun CalendarScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             dayTextField = dateField.split(' ')[0],
-            monthTextField = dateField.split(' ')[1]
+            monthTextField = dateField.split(' ')[1],
+            onNextDayClicked = { viewModel.nextDay() },
+            onPreviousDayClicked = { viewModel.previousDay() }
         )
         Divider()
         Box(modifier = Modifier.fillMaxSize()) {
@@ -70,3 +72,4 @@ fun CalendarScreen(
         }
     }
 }
+

@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 fun DateRow(
     modifier: Modifier,
     dayTextField: String,
-    monthTextField: String
+    monthTextField: String,
+    onNextDayClicked: () -> Unit,
+    onPreviousDayClicked: () -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -26,7 +28,7 @@ fun DateRow(
     ) {
         IconButton(
             modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /*TODO*/ }
+            onClick = onPreviousDayClicked
         ) {
             Icon(Icons.Filled.ArrowBack, "Back")
         }
@@ -44,7 +46,7 @@ fun DateRow(
         }
         IconButton(
             modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /*TODO*/ }
+            onClick = onNextDayClicked
         ) {
             Icon(Icons.Filled.ArrowForward, "Forward")
         }
@@ -54,5 +56,5 @@ fun DateRow(
 @Preview
 @Composable
 fun DateRowPreview() {
-    DateRow(Modifier.fillMaxWidth(), "18", "февраля")
+    DateRow(Modifier.fillMaxWidth(), "18", "февраля", {}, {})
 }

@@ -91,6 +91,7 @@ fun DetailsScreen(
                                 title = saintData?.body?.title ?: "",
                                 description = saintData?.body?.description ?: ""
                             )
+                            Log.d("___", "saint id= ${saintData?.body?.saintId}, troparia= ${saintData?.troparia?.size}")
 
                         }
                     }
@@ -111,7 +112,7 @@ fun ShowDetails(
             modifier = Modifier
                 .padding(4.dp)
                 .align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.subtitle2
         )
 
         val scroll = rememberScrollState(0)
