@@ -2,7 +2,6 @@ package com.example.orthodoxcalendar.data.repository
 
 import com.example.orthodoxcalendar.data.remote.DataSourceRemote
 import com.example.orthodoxcalendar.data.storage.DataSourceLocal
-import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 import com.example.orthodoxcalendar.data.storage.models.SaintLocal
@@ -15,19 +14,6 @@ class CalendarRepositoryImpl(
     private val dataSourceRemote: DataSourceRemote,
     private val dataSourceLocal: DataSourceLocal
 ) : CalendarRepository {
-
-    override fun getCacheDate(
-        dateBefore: String?,
-        dateStrictlyBefore: String?,
-        dateAfter: String?,
-        dateStrictlyAfter: String?
-    ): Flow<Result<List<DateRuleLocal>>> {
-        return flow {
-            emit(Result.Loading)
-            val calendarResponse = dataSourceRemote.getCacheDates(dateBefore, dateStrictlyBefore, dateAfter, dateStrictlyAfter)
-            emit(calendarResponse)
-        }.flowOn(Dispatchers.IO)
-    }
 
     override fun getDay(date: String): Flow<Result<DayLocal>> {
         return flow {

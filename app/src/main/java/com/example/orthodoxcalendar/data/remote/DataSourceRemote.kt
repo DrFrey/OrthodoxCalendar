@@ -4,7 +4,6 @@ import com.example.orthodoxcalendar.common.request
 import com.example.orthodoxcalendar.data.remote.mappers.*
 import com.example.orthodoxcalendar.data.repository.Result
 import com.example.orthodoxcalendar.data.repository.map
-import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import com.example.orthodoxcalendar.data.storage.models.HolidayLocal
 import com.example.orthodoxcalendar.data.storage.models.SaintLocal
@@ -12,28 +11,11 @@ import javax.inject.Inject
 
 class DataSourceRemote @Inject constructor(
     private val calendarApiService: CalendarApiService,
-    private val cacheDateMapper: CacheDateMapper,
     private val dayMapper: DayMapper,
     private val holidayMapper: HolidayMapper,
     private val tropariaMapper: TropariaMapper,
     private val saintMapper: SaintMapper
 ) {
-    suspend fun getCacheDates(
-        dateBefore: String?,
-        dateStrictlyBefore: String?,
-        dateAfter: String?,
-        dateStrictlyAfter: String?
-    ): Result<List<DateRuleLocal>> =
-        request {
-            calendarApiService.getCacheDates(
-                dateBefore,
-                dateStrictlyBefore,
-                dateAfter,
-                dateStrictlyAfter
-            )
-        }.map {
-            cacheDateMapper.mapToLocal(it)
-        }
 
     suspend fun getDay(date: String): Result<DayLocal> =
         request {

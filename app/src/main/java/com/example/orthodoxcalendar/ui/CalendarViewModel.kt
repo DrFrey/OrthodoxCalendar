@@ -9,7 +9,6 @@ import com.example.orthodoxcalendar.common.YYYY_MM_DD
 import com.example.orthodoxcalendar.common.format
 import com.example.orthodoxcalendar.data.repository.CalendarRepository
 import com.example.orthodoxcalendar.data.repository.Result
-import com.example.orthodoxcalendar.data.storage.models.DateRuleLocal
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -26,9 +25,6 @@ class CalendarViewModel @Inject constructor(
     private val calendar: Calendar = Calendar.getInstance()
 
     var currentDateFormatted by mutableStateOf("")
-        private set
-
-    var currentDateItems = mutableStateListOf<DateRuleLocal>()
         private set
 
     var saintItems = mutableStateListOf<DayLocal.Saint>()
@@ -104,30 +100,5 @@ class CalendarViewModel @Inject constructor(
         currentDateFormatted = currentDate.format(D_MMMM)
         getCurrentDay()
         Log.d("___", "currentDate = ${currentDate.time}, formatted = ${currentDateFormatted}")
-    }
-
-    private fun getCurrentDateItems() {
-        val date = currentDate.format(YYYY_MM_DD)
-        viewModelScope.launch {
-            calendarRepository.getCacheDate(
-                dateBefore = date,
-                dateStrictlyBefore = null,
-                dateAfter = date,
-                dateStrictlyAfter = null
-            )
-                .collect {
-                    when (it) {
-                        is Result.Loading -> isLoading = true
-                        is Result.Success -> {
-                            currentDateItems = it.data?.toMutableStateList() ?: mutableStateListOf()
-                            isLoading = false
-                        }
-                        is Result.Error -> {
-                            error = it.message.orEmpty()
-                            isLoading = false
-                        }
-                    }
-                }
-        }
     }
 }

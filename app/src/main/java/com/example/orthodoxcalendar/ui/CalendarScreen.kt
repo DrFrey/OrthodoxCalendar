@@ -6,7 +6,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,7 +22,6 @@ fun CalendarScreen(
     textsVisible: Boolean
 ) {
     val viewModel: CalendarViewModel = hiltViewModel()
-    val coroutineScope = rememberCoroutineScope()
 
     val dateField = viewModel.currentDateFormatted
     val isLoading = viewModel.isLoading
