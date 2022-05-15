@@ -1,10 +1,7 @@
 package com.example.orthodoxcalendar.data.storage.dao
 
 import androidx.room.*
-import com.example.orthodoxcalendar.data.storage.models.IconsOfSaint
-import com.example.orthodoxcalendar.data.storage.models.SaintBody
-import com.example.orthodoxcalendar.data.storage.models.SaintLocal
-import com.example.orthodoxcalendar.data.storage.models.TropariaOrKontakia
+import com.example.orthodoxcalendar.data.storage.models.*
 
 @Dao
 interface SaintDao {
@@ -26,6 +23,9 @@ interface SaintDao {
         insertSaint(body)
         insertIcons(icons)
         insertTroparia(troparia)
+        for (item in troparia) {
+            insertCrossRef(SaintTropariaCrossRef(saintId = body.saintId, tropariaId = item.tropariaId))
+        }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -36,4 +36,7 @@ interface SaintDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTroparia(troparia: List<TropariaOrKontakia>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertCrossRef(cross: SaintTropariaCrossRef)
 }

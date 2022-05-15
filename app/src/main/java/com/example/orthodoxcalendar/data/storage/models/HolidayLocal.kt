@@ -15,8 +15,13 @@ data class HolidayLocal(
 
     @Relation(
         parentColumn = "holidayId",
+        entity = TropariaOrKontakia::class,
         entityColumn = "tropariaId",
-        associateBy = Junction(HolidayTropariaCrossRef::class)
+        associateBy = Junction(
+            value = HolidayTropariaCrossRef::class,
+            parentColumn = "holidayId",
+            entityColumn = "tropariaId"
+        )
     )
     val troparia: List<TropariaOrKontakia>
 )

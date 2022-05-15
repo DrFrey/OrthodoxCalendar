@@ -1,0 +1,414 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "8f29ff5a61a27a9eea0d237d987154a1",
+    "entities": [
+      {
+        "tableName": "HolidayBody",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`holidayId` INTEGER NOT NULL, `canonsOrAkathists` TEXT NOT NULL, `daysAfter` INTEGER NOT NULL, `daysBefore` INTEGER NOT NULL, `description` TEXT NOT NULL, `favorite` INTEGER NOT NULL, `ideograph` INTEGER NOT NULL, `liturgicalFeatures` TEXT NOT NULL, `marked` INTEGER NOT NULL, `pagetitle` TEXT NOT NULL, `priority` INTEGER NOT NULL, `temples` TEXT NOT NULL, `theology` TEXT NOT NULL, `title` TEXT NOT NULL, `uri` TEXT NOT NULL, `url` TEXT NOT NULL, `urlBase` INTEGER NOT NULL, `tropariaIdList` TEXT NOT NULL, PRIMARY KEY(`holidayId`))",
+        "fields": [
+          {
+            "fieldPath": "holidayId",
+            "columnName": "holidayId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "canonsOrAkathists",
+            "columnName": "canonsOrAkathists",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysAfter",
+            "columnName": "daysAfter",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysBefore",
+            "columnName": "daysBefore",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ideograph",
+            "columnName": "ideograph",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liturgicalFeatures",
+            "columnName": "liturgicalFeatures",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marked",
+            "columnName": "marked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pagetitle",
+            "columnName": "pagetitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temples",
+            "columnName": "temples",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "theology",
+            "columnName": "theology",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "urlBase",
+            "columnName": "urlBase",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tropariaIdList",
+            "columnName": "tropariaIdList",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "holidayId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "IconsOfHoliday",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `holidayRelationId` INTEGER NOT NULL, `image` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "holidayRelationId",
+            "columnName": "holidayRelationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TropariaOrKontakia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tropariaId` INTEGER NOT NULL, `audioSource` TEXT NOT NULL, `duration` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `voice` TEXT NOT NULL, PRIMARY KEY(`tropariaId`))",
+        "fields": [
+          {
+            "fieldPath": "tropariaId",
+            "columnName": "tropariaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audioSource",
+            "columnName": "audioSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "voice",
+            "columnName": "voice",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tropariaId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SaintBody",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`saintId` INTEGER NOT NULL, `description` TEXT NOT NULL, `enableChurchTitleGroup` INTEGER NOT NULL, `enableTypeOfSanctityGroup` INTEGER NOT NULL, `group` INTEGER NOT NULL, `ideograph` INTEGER NOT NULL, `isCathedral` INTEGER NOT NULL, `isMenologyRpc` INTEGER NOT NULL, `linkToService` TEXT NOT NULL, `newmartyr` INTEGER NOT NULL, `number` INTEGER NOT NULL, `prefixGroup` TEXT NOT NULL, `priority` INTEGER NOT NULL, `skipInMenology` INTEGER NOT NULL, `suffixGroup` TEXT NOT NULL, `temples` TEXT NOT NULL, `title` TEXT NOT NULL, `titleGenitive` TEXT NOT NULL, `titleGroup` TEXT NOT NULL, `unionGroup` TEXT NOT NULL, `uri` TEXT NOT NULL, `url` TEXT NOT NULL, `worldlyActivities` TEXT NOT NULL, `tropariaIdList` TEXT NOT NULL, PRIMARY KEY(`saintId`))",
+        "fields": [
+          {
+            "fieldPath": "saintId",
+            "columnName": "saintId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enableChurchTitleGroup",
+            "columnName": "enableChurchTitleGroup",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enableTypeOfSanctityGroup",
+            "columnName": "enableTypeOfSanctityGroup",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group",
+            "columnName": "group",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ideograph",
+            "columnName": "ideograph",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCathedral",
+            "columnName": "isCathedral",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMenologyRpc",
+            "columnName": "isMenologyRpc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "linkToService",
+            "columnName": "linkToService",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "newmartyr",
+            "columnName": "newmartyr",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prefixGroup",
+            "columnName": "prefixGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "skipInMenology",
+            "columnName": "skipInMenology",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "suffixGroup",
+            "columnName": "suffixGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temples",
+            "columnName": "temples",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleGenitive",
+            "columnName": "titleGenitive",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleGroup",
+            "columnName": "titleGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unionGroup",
+            "columnName": "unionGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "worldlyActivities",
+            "columnName": "worldlyActivities",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tropariaIdList",
+            "columnName": "tropariaIdList",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "saintId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "IconsOfSaint",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `saintRelationId` INTEGER NOT NULL, `image` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "saintRelationId",
+            "columnName": "saintRelationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8f29ff5a61a27a9eea0d237d987154a1')"
+    ]
+  }
+}
