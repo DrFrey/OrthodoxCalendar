@@ -19,7 +19,7 @@ interface CalendarApiService {
         @Query("date[strictly_after]") dateStrictlyAfter: String?
     ): Response<CacheDateResponse>
 
-    @GET("days-new/api/day/{date}.json")
+    @GET("days/api/day/{date}.json")
     suspend fun getDay(@Path("date") date: String): Response<DayResponse>
 
     @GET("days/api/holidays/{id}")
