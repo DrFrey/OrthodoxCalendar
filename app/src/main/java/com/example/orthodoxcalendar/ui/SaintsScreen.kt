@@ -36,7 +36,6 @@ import com.ireward.htmlcompose.HtmlText
 fun SaintsScreen(
     saints: List<DayLocal.Saint>,
     navController: NavHostController,
-//    onCardClicked: (DayLocal.Saint) -> Unit
     isVisible: Boolean
 ) {
     Log.d("___", "SaintsScreen launched")

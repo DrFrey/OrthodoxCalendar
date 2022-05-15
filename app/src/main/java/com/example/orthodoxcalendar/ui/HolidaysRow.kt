@@ -31,9 +31,8 @@ fun HolidaysRow(
     modifier: Modifier = Modifier,
     holidays: List<DayLocal.Holiday>,
     navController: NavHostController
-//    onCardClicked: (DayLocal.Holiday) -> Unit
 ) {
-    if (holidays.size == 1 && holidays[0].title.isEmpty()) {
+    if (holidays.isEmpty()) {
         Text(
             text = stringResource(R.string.no_holidays),
             textAlign = TextAlign.Center,

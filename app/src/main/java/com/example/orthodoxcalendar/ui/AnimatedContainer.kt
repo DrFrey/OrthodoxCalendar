@@ -3,7 +3,7 @@ package com.example.orthodoxcalendar.ui
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 
 
 @Composable

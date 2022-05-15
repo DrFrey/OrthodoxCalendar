@@ -1,7 +1,10 @@
 package com.example.orthodoxcalendar.data.remote
 
 import com.example.orthodoxcalendar.common.request
-import com.example.orthodoxcalendar.data.remote.mappers.*
+import com.example.orthodoxcalendar.data.remote.mappers.DayMapper
+import com.example.orthodoxcalendar.data.remote.mappers.HolidayMapper
+import com.example.orthodoxcalendar.data.remote.mappers.SaintMapper
+import com.example.orthodoxcalendar.data.remote.mappers.TropariaMapper
 import com.example.orthodoxcalendar.data.repository.Result
 import com.example.orthodoxcalendar.data.repository.map
 import com.example.orthodoxcalendar.data.storage.models.DayLocal
