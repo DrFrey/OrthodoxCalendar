@@ -4,22 +4,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun Long?.convertLongToDate(format: String): String {
-    if (this == 0L) return ""
-    this?.let {
-        kotlin.runCatching {
-            val df = SimpleDateFormat(format, Locale.getDefault())
-            return df.format(this)
-        }
+    if (this == 0L || this == null) return ""
+    return try {
+        val df = SimpleDateFormat(format, Locale.getDefault())
+        df.format(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
     }
-    return ""
 }
 
 fun Date?.format(format: String): String {
-    this?.let {
+    if (this == null) return ""
+    return try {
         val df = SimpleDateFormat(format, Locale.getDefault())
-        return df.format(this)
+        df.format(this)
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        ""
     }
-    return ""
 }
 
 const val D_MMMM = "d MMMM"
