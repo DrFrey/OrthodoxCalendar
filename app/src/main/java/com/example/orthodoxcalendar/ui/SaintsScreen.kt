@@ -1,6 +1,5 @@
 package com.example.orthodoxcalendar.ui
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -38,7 +37,6 @@ fun SaintsScreen(
     navController: NavHostController,
     isVisible: Boolean
 ) {
-    Log.d("___", "SaintsScreen launched")
     if (isVisible) {
         LazyColumn(
             modifier = Modifier,
